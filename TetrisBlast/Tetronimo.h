@@ -1,8 +1,9 @@
-#pragma oncej
+#pragma once
 #include "Block.h"
 #include "Constants.h"
 #include <stdlib.h>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -14,14 +15,14 @@ public:
 
 	Tetronimo::Tetronimo(int x, int y);
 
-	Block* origBlock = NULL;
+	shared_ptr<Block> origBlock = NULL;
 
 	//x-coordinates of other blocks, using origBlock as "origin"
 	int xCord[3];
 	int yCord[3];
-	Block* secondBlock = NULL;
-	Block* thirdBlock = NULL;
-	Block* fourthBlock = NULL;
+	shared_ptr<Block> secondBlock = NULL;
+	shared_ptr<Block> thirdBlock = NULL;
+	shared_ptr<Block> fourthBlock = NULL;
 
 	SDL_Color color;
 	
@@ -44,9 +45,18 @@ public:
 	//move tetrnonimo right one unit
 	void moveRight();
 
+	//rotate the blocks CCW around the orig block
 	void rotate();
+	
+	//check all blocks in this tetronimo for a left or right collision with a border
+	bool wallCollision();
 
-	//void rotateCords();
+	//check all blocks for collision with left wall
+	bool leftWallCollision();
+
+	//check all blocks for collision with right wall
+	bool rightWallCollision();
+
 private:
 
 	/**Given tetronimo type "type", initializes xCord and yCord arrays to

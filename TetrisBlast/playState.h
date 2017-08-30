@@ -31,6 +31,13 @@ public:
 	//The board object where the game takes place, keeps information about the play borders and the stationary blocks/tetronimos
 	//currently on the board
 	Board* board = NULL;
+
+	//assigns tetronimo a new Tetronimo object
+	void generateTetronimo();
+
+	//frees the current tetronimo object
+	void destroyTetronimo();
+
 protected:
 	playState();
 	~playState();

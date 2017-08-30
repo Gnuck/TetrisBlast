@@ -11,11 +11,16 @@ Tetronimo::Tetronimo(int x, int y) {
 	printf("%d tetro piece",r);
 	type = (tetroPieces) r;
 	initBlockCords(type);
-	origBlock = new Block(x, y, BLOCK_SIZE, BLOCK_SIZE);
+
+	origBlock = std::make_shared<Block>(x, y, BLOCK_SIZE, BLOCK_SIZE);
+	secondBlock = std::make_shared<Block>(x + xCord[0] * BLOCK_SIZE, y + yCord[0] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+	thirdBlock = std::make_shared<Block>(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+	fourthBlock = std::make_shared<Block>(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+
+	/*origBlock = new Block(x, y, BLOCK_SIZE, BLOCK_SIZE);
 	secondBlock = new Block(x+xCord[0]*BLOCK_SIZE, y+yCord[0]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 	thirdBlock = new Block(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-	fourthBlock = new Block(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-
+	fourthBlock = new Block(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);*/
 }
 
 Tetronimo::~Tetronimo()
@@ -131,6 +136,7 @@ void Tetronimo::drawTetronimo(SDL_Renderer* renderer) {
 }
 
 void Tetronimo::moveUp() {
+	y -= BLOCK_SIZE;
 	origBlock->moveVert(-BLOCK_SIZE);
 	secondBlock->moveVert(-BLOCK_SIZE);
 	thirdBlock->moveVert(-BLOCK_SIZE);
@@ -138,6 +144,7 @@ void Tetronimo::moveUp() {
 }
 
 void Tetronimo::moveDown() {
+	y += BLOCK_SIZE;
 	origBlock->moveVert(BLOCK_SIZE);
 	secondBlock->moveVert(BLOCK_SIZE);
 	thirdBlock->moveVert(BLOCK_SIZE);
@@ -176,5 +183,33 @@ void Tetronimo::rotate() {
 		secondBlock->changeXY(BLOCK_SIZE*xCord[0] + orig_x, orig_y + BLOCK_SIZE*yCord[0]);
 		thirdBlock->changeXY(orig_x + BLOCK_SIZE*xCord[1], orig_y + BLOCK_SIZE*yCord[1]);
 		fourthBlock->changeXY(orig_x + BLOCK_SIZE*xCord[2], orig_y + BLOCK_SIZE*yCord[2]);
+		
+		//check for collisions caused by the rotation, move tetronimo if 
+		//possible upon collision detected
+		if (leftWallCollision()) {
+			moveRight();
+		}
+		else if (rightWallCollision()) {
+			moveLeft();
+		}
 	}
+}
+
+bool Tetronimo::wallCollision() {
+
+	printf("orig: %d, sec: %d, thr: %d, fth: %d \n", origBlock->rect.x, secondBlock->rect.x, thirdBlock->rect.x, fourthBlock->rect.x);
+	return origBlock->collRight(RIGHT_WALL) || origBlock->collLeft(LEFT_WALL)
+		|| secondBlock->collRight(RIGHT_WALL) || secondBlock->collLeft(LEFT_WALL)
+		|| thirdBlock->collRight(RIGHT_WALL) || thirdBlock->collLeft(LEFT_WALL)
+		|| fourthBlock->collRight(RIGHT_WALL) || fourthBlock->collLeft(LEFT_WALL);
+}
+
+bool Tetronimo::leftWallCollision() {
+	return origBlock->collLeft(LEFT_WALL) || secondBlock->collLeft(LEFT_WALL) 
+		|| thirdBlock->collLeft(LEFT_WALL) || fourthBlock->collLeft(LEFT_WALL);
+}
+
+bool Tetronimo::rightWallCollision() {
+	return origBlock->collRight(RIGHT_WALL) || secondBlock->collRight(RIGHT_WALL)
+		|| thirdBlock->collRight(RIGHT_WALL) || fourthBlock->collRight(RIGHT_WALL);
 }

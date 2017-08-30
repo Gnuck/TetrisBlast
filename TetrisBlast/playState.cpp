@@ -13,9 +13,7 @@ playState::~playState()
 }
 
 void playState::init() {
-	SDL_Rect fillRect = { 33,33, 32, 32 };
-	//tetronimo = new Block(fillRect);
-	tetronimo = new Tetronimo(33, 33);
+	tetronimo = new Tetronimo((LEFT_WALL+RIGHT_WALL)/2, CEILING);
 	board = new Board();
 }
 
@@ -38,14 +36,21 @@ void playState::handleEvents(App* app) {
 	}
 	if (keysHeld[SDL_SCANCODE_LEFT]) {
 		tetronimo->moveLeft();
+		//if this move made the block move past the wall, undo the past move
+		if (tetronimo->wallCollision()) {
+			tetronimo->moveRight();
+		}
 		keysHeld[SDL_SCANCODE_LEFT] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_RIGHT]) {
 		tetronimo->moveRight();
+		//if this move made the block move past the wall, undo the past move
+		if (tetronimo->wallCollision()) {
+			tetronimo->moveLeft();
+		}
 		keysHeld[SDL_SCANCODE_RIGHT] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_RETURN]) {
-		//app->pushState(playState::Instance());
 		app->popState();
 		keysHeld[SDL_SCANCODE_RETURN] = false;
 	}
@@ -77,4 +82,8 @@ void playState::pause() {
 
 void playState::resume() {
 
+}
+
+void playState::generateTetronimo() {
+	tetronimo = new Tetronimo((LEFT_WALL + RIGHT_WALL) / 2, CEILING);
 }
