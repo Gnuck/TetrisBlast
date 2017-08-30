@@ -14,7 +14,8 @@ playState::~playState()
 
 void playState::init() {
 	SDL_Rect fillRect = { 33,33, 32, 32 };
-	tetronimo = new Block(fillRect);
+	//tetronimo = new Block(fillRect);
+	tetronimo = new Tetronimo(33, 33);
 	board = new Board();
 }
 
@@ -28,16 +29,20 @@ void playState::handleEvents(App* app) {
 	bool* keysHeld = app->inputController->getInput();
 
 	if (keysHeld[SDL_SCANCODE_UP]) {
-		tetronimo->moveVert(-32);
+		tetronimo->rotate();
+		keysHeld[SDL_SCANCODE_UP] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_DOWN]) {
-		tetronimo->moveVert(32);
+		tetronimo->moveDown();
+		keysHeld[SDL_SCANCODE_DOWN] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_LEFT]) {
-		tetronimo->moveHoriz(-32);
+		tetronimo->moveLeft();
+		keysHeld[SDL_SCANCODE_LEFT] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_RIGHT]) {
-		tetronimo->moveHoriz(32);
+		tetronimo->moveRight();
+		keysHeld[SDL_SCANCODE_RIGHT] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_RETURN]) {
 		//app->pushState(playState::Instance());
@@ -62,8 +67,7 @@ void playState::draw(App* app) {
 
 	//Render red filled quad
 	//SDL_Rect fillRect = { 16,16, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
-	SDL_SetRenderDrawColor(app->gRenderer, 0x00, 0x00, 0xFF, 0xFF);
-	SDL_RenderFillRect(app->gRenderer, &(tetronimo->rect));
+	tetronimo->drawTetronimo(app->gRenderer);
 	SDL_RenderPresent(app->gRenderer);
 }
 

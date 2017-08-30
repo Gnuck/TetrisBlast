@@ -2,7 +2,7 @@
 #include "MenuState.h"
 #include "playState.h"
 #include "Constants.h"
-
+#include <ctime>
 
 App::App()
 {
@@ -16,7 +16,7 @@ App::~App()
 bool App::init() {
 	//Initialization flag
 	bool success = true;
-
+	srand(time(NULL));
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());

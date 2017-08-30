@@ -19,6 +19,12 @@ public:
 	void Block::moveHoriz(int x);
 	//move the block vertically y units... negative y moves up, positive moves down
 	void Block::moveVert(int y);
+
+	//method for drawing this block
+	void Block::drawBlock(SDL_Renderer* renderer);
+
+	//change x value of block
+	void Block::changeXY(int newX,int newY);
 	
 };
 

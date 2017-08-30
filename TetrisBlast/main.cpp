@@ -35,9 +35,6 @@ SDL_Window* gWindow = NULL;
 //The surface contained by the window
 SDL_Surface* gScreenSurface = NULL;
 
-//images that correspond to a keypress
-SDL_Texture* gKeyPressTextures[KEY_PRESS_SURFACE_TOTAL];
-
 //The image we will load and show on the screen
 SDL_Texture* gCurrentTexture = NULL;
 SDL_Surface* gStretchedSurface = NULL;

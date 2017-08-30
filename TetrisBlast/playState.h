@@ -5,6 +5,7 @@
 #include "State.h"
 #include "Block.h"
 #include "Board.h"
+#include "Tetronimo.h"
 
 class playState : public State
 {
@@ -25,7 +26,7 @@ public:
 		return &m_playState;
 	}
 	//Current tetronimo the play controls
-	Block* tetronimo = NULL;
+	Tetronimo* tetronimo = NULL;
 
 	//The board object where the game takes place, keeps information about the play borders and the stationary blocks/tetronimos
 	//currently on the board

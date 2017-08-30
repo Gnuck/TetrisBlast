@@ -24,3 +24,14 @@ void Block::moveHoriz(int x) {
 void Block::moveVert(int y) {
 	rect.y += y;
 }
+
+void Block::drawBlock(SDL_Renderer* renderer) {
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_RenderFillRect(renderer, &rect);
+}
+
+void Block::changeXY(int newX, int newY) {
+	this->rect.x = newX;
+	this->rect.y = newY;
+}
+
