@@ -3,6 +3,9 @@
 #include "Constants.h"
 #include <stdlib.h>
 #include <memory>
+#include <vector>
+
+using namespace std;
 
 class Block
 {
@@ -42,6 +45,12 @@ public:
 	bool Block::collBelow(int collider);
 
 	//check for collision to left and right against a given block
-	bool Block::collBlock(Block collider);
+	bool Block::collBlock(shared_ptr<Block> collider);
+
+	//Get row for this block
+	int Block::getRow();
+
+	//Check for collision between this block and every block in the given list of blocks
+	bool Block::checkCollBlocks(vector<shared_ptr<Block>> blocks);
 };
 

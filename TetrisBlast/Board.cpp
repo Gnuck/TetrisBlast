@@ -4,6 +4,10 @@
 
 Board::Board()
 {
+	//initialize the RowSizes Array
+	for (int i = 0; i < BOARD_TILE_HEIGHT; i++) {
+		RowSizes[i] = 0;
+	}
 }
 
 
@@ -40,5 +44,41 @@ void Board::drawBoardGrid(SDL_Renderer* renderer) {
 		for (int d = LEFT_WALL; d < RIGHT_WALL; d += 4) {
 			SDL_RenderDrawPoint(renderer, d, i*CEILING);
 		}
+	}
+}
+
+void Board::addBlocksToBoard(Tetronimo* tetro) {
+
+	boardBlocks.push_back(tetro->origBlock);
+	boardBlocks.push_back(tetro->secondBlock);
+	boardBlocks.push_back(tetro->thirdBlock);
+	boardBlocks.push_back(tetro->fourthBlock);
+
+	//Update row data for each newly added block
+	updateRowData(tetro->origBlock);
+	updateRowData(tetro->secondBlock);
+	updateRowData(tetro->thirdBlock);
+	updateRowData(tetro->fourthBlock);
+}
+
+
+void Board::updateRowData(shared_ptr<Block> block) {
+	
+	for (int i = 0; i < BOARD_TILE_HEIGHT; i++) {
+		if (CEILING + i*BLOCK_SIZE == block->rect.y) {
+			RowSizes[i] += 1;
+
+			//Check if a row is 10, call deleteRow() if true
+			if (RowSizes[i] >= 10) {
+				//delete each block in row i
+			}
+		}
+	}
+}
+
+void Board::drawBoardBlocks(SDL_Renderer* renderer) {
+	vector<shared_ptr<Block>>::iterator it;
+	for (it = boardBlocks.begin(); it != boardBlocks.end(); ++it) {
+		(*it)->drawBlock(renderer);
 	}
 }

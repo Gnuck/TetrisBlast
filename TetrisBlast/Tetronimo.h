@@ -46,10 +46,12 @@ public:
 	void moveRight();
 
 	//rotate the blocks CCW around the orig block
-	void rotate();
+	void rotateCCW();
+
+	void rotateCW();
 	
 	//check all blocks in this tetronimo for a left or right collision with a border
-	bool wallCollision();
+	bool HorizCollision(vector<shared_ptr<Block>> blocks);
 
 	//check all blocks for collision with left wall
 	bool leftWallCollision();
@@ -57,6 +59,10 @@ public:
 	//check all blocks for collision with right wall
 	bool rightWallCollision();
 
+	//Checks all blocks for a collision below (currently with the floor)
+	bool belowCollisions(vector<shared_ptr<Block>> blocks);
+
+	//
 private:
 
 	/**Given tetronimo type "type", initializes xCord and yCord arrays to

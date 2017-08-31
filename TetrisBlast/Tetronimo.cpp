@@ -165,7 +165,7 @@ void Tetronimo::moveRight() {
 	fourthBlock->moveHoriz(BLOCK_SIZE);
 }
 
-void Tetronimo::rotate() {
+void Tetronimo::rotateCCW() {
 	if (this->type == SQUARE) {
 
 	}
@@ -186,6 +186,7 @@ void Tetronimo::rotate() {
 		
 		//check for collisions caused by the rotation, move tetronimo if 
 		//possible upon collision detected
+
 		if (leftWallCollision()) {
 			moveRight();
 		}
@@ -195,13 +196,43 @@ void Tetronimo::rotate() {
 	}
 }
 
-bool Tetronimo::wallCollision() {
+void Tetronimo::rotateCW() {
+	if (this->type == SQUARE) {
 
-	printf("orig: %d, sec: %d, thr: %d, fth: %d \n", origBlock->rect.x, secondBlock->rect.x, thirdBlock->rect.x, fourthBlock->rect.x);
+	}
+	else {
+		int orig_x = origBlock->rect.x;
+		int orig_y = origBlock->rect.y;
+		int temp;
+		//rotate the coordinate system
+		for (int i = 0; i < 3; i++) {
+			temp = yCord[i];
+			yCord[i] = xCord[i];
+			xCord[i] = -temp;
+		}
+		//apply the changes
+		secondBlock->changeXY(BLOCK_SIZE*xCord[0] + orig_x, orig_y + BLOCK_SIZE*yCord[0]);
+		thirdBlock->changeXY(orig_x + BLOCK_SIZE*xCord[1], orig_y + BLOCK_SIZE*yCord[1]);
+		fourthBlock->changeXY(orig_x + BLOCK_SIZE*xCord[2], orig_y + BLOCK_SIZE*yCord[2]);
+
+		//check for collisions caused by the rotation, move tetronimo if 
+		//possible upon collision detected
+		if (leftWallCollision()) {
+			moveRight();
+		}
+		else if (rightWallCollision()) {
+			moveLeft();
+		}
+	}
+}
+bool Tetronimo::HorizCollision(vector<shared_ptr<Block>> blocks) {
 	return origBlock->collRight(RIGHT_WALL) || origBlock->collLeft(LEFT_WALL)
 		|| secondBlock->collRight(RIGHT_WALL) || secondBlock->collLeft(LEFT_WALL)
 		|| thirdBlock->collRight(RIGHT_WALL) || thirdBlock->collLeft(LEFT_WALL)
-		|| fourthBlock->collRight(RIGHT_WALL) || fourthBlock->collLeft(LEFT_WALL);
+		|| fourthBlock->collRight(RIGHT_WALL) || fourthBlock->collLeft(LEFT_WALL)
+		|| origBlock->checkCollBlocks(blocks) || secondBlock->checkCollBlocks(blocks)
+		|| thirdBlock->checkCollBlocks(blocks) || fourthBlock->checkCollBlocks(blocks);
+
 }
 
 bool Tetronimo::leftWallCollision() {
@@ -212,4 +243,11 @@ bool Tetronimo::leftWallCollision() {
 bool Tetronimo::rightWallCollision() {
 	return origBlock->collRight(RIGHT_WALL) || secondBlock->collRight(RIGHT_WALL)
 		|| thirdBlock->collRight(RIGHT_WALL) || fourthBlock->collRight(RIGHT_WALL);
+}
+
+bool Tetronimo::belowCollisions(vector<shared_ptr<Block>> blocks) {
+	return origBlock->collBelow(FLOOR) || secondBlock->collBelow(FLOOR)
+		|| thirdBlock->collBelow(FLOOR) || fourthBlock->collBelow(FLOOR)
+		|| origBlock->checkCollBlocks(blocks) || secondBlock->checkCollBlocks(blocks)
+		|| thirdBlock->checkCollBlocks(blocks) || fourthBlock->checkCollBlocks(blocks);
 }

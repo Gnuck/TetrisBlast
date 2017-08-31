@@ -7,7 +7,6 @@ Block::~Block()
 
 Block::Block(int x, int y, int width, int height)
 {
-
 	rect = {x,y,width,height};
 }
 
@@ -55,10 +54,19 @@ bool Block::collLeft(int collider) {
 }
 
 bool Block::collBelow(int collider) {
-	return(this->rect.y + BLOCK_SIZE >= collider);
+	return(this->rect.y  >= collider);
 }
 
-bool Block::collBlock(Block collider) {
-	return collLeft(collider.rect.x + collider.rect.w) && collRight(collider.rect.x);
+bool Block::collBlock(shared_ptr<Block> collider) {
+	return (collider->rect.y == this->rect.y) && (collider->rect.x == this->rect.x);
 }
 
+bool Block::checkCollBlocks(vector<shared_ptr<Block>> blocks) {
+	vector<shared_ptr<Block>>::iterator it;
+	for (it = blocks.begin(); it != blocks.end(); ++it) {
+		if (collBlock(*it)) {
+			return true;
+		}
+	}
+	return false;
+}

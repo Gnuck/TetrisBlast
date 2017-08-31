@@ -27,17 +27,31 @@ void playState::handleEvents(App* app) {
 	bool* keysHeld = app->inputController->getInput();
 
 	if (keysHeld[SDL_SCANCODE_UP]) {
-		tetronimo->rotate();
+		tetronimo->rotateCCW();
+		if (tetronimo->belowCollisions(board->boardBlocks)) {
+			tetronimo->rotateCW();
+		}
 		keysHeld[SDL_SCANCODE_UP] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_DOWN]) {
 		tetronimo->moveDown();
+		if (tetronimo->belowCollisions(board->boardBlocks)) {
+			tetronimo->moveUp();
+			board->addBlocksToBoard(tetronimo);
+			//delete tetronimo here?
+			tetronimo->~Tetronimo();
+			////////////////////////
+
+			generateTetronimo();
+			//tetronimo->moveUp();
+			//add tetronimo to board state
+		}
 		keysHeld[SDL_SCANCODE_DOWN] = false;
 	}
 	if (keysHeld[SDL_SCANCODE_LEFT]) {
 		tetronimo->moveLeft();
 		//if this move made the block move past the wall, undo the past move
-		if (tetronimo->wallCollision()) {
+		if (tetronimo->HorizCollision(board->boardBlocks)) {
 			tetronimo->moveRight();
 		}
 		keysHeld[SDL_SCANCODE_LEFT] = false;
@@ -45,7 +59,7 @@ void playState::handleEvents(App* app) {
 	if (keysHeld[SDL_SCANCODE_RIGHT]) {
 		tetronimo->moveRight();
 		//if this move made the block move past the wall, undo the past move
-		if (tetronimo->wallCollision()) {
+		if (tetronimo->HorizCollision(board->boardBlocks)) {
 			tetronimo->moveLeft();
 		}
 		keysHeld[SDL_SCANCODE_RIGHT] = false;
@@ -61,18 +75,20 @@ void playState::update(App* app) {
 }
 
 void playState::draw(App* app) {
+	//draw background color
 	SDL_SetRenderDrawColor(app->gRenderer, 0, 0, 0, 0);
 	SDL_RenderClear(app->gRenderer);
 
-
-
-
+	//draw board borders and grid
 	board->drawBoardBorders(app->gRenderer);
 	board->drawBoardGrid(app->gRenderer);
 
-	//Render red filled quad
-	//SDL_Rect fillRect = { 16,16, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+	//draw currenlty controlled tetronimo
 	tetronimo->drawTetronimo(app->gRenderer);
+
+	//Draw board blocks
+	board->drawBoardBlocks(app->gRenderer);
+
 	SDL_RenderPresent(app->gRenderer);
 }
 

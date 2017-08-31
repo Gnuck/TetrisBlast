@@ -14,6 +14,10 @@ const int CEILING = SCREEN_HEIGHT / 20;
 const int LEFT_WALL = SCREEN_WIDTH / 20;
 //x value for the play area's right wall
 const int RIGHT_WALL = 11 * SCREEN_WIDTH / 20;
+//Number of vertical grid spaces
+const int BOARD_TILE_HEIGHT = 18;
+//Number of horizontal grid spaces
+const int BOARD_TILE_WIDTH = 10;
 
 enum tetroPieces {
 	LINE,
@@ -24,3 +28,4 @@ enum tetroPieces {
 	CAPITAL_T,
 	SQUARE
 };
+

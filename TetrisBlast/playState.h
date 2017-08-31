@@ -35,7 +35,7 @@ public:
 	//assigns tetronimo a new Tetronimo object
 	void generateTetronimo();
 
-	//frees the current tetronimo object
+	//frees the current tetronimo object and adds its block to the board
 	void destroyTetronimo();
 
 protected:
