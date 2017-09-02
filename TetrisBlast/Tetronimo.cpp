@@ -8,7 +8,6 @@ Tetronimo::Tetronimo()
 
 Tetronimo::Tetronimo(int x, int y) {
 	int r = rand() % 7;
-	printf("%d tetro piece",r);
 	type = (tetroPieces) r;
 	initBlockCords(type);
 
@@ -16,11 +15,6 @@ Tetronimo::Tetronimo(int x, int y) {
 	secondBlock = std::make_shared<Block>(x + xCord[0] * BLOCK_SIZE, y + yCord[0] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 	thirdBlock = std::make_shared<Block>(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 	fourthBlock = std::make_shared<Block>(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-
-	/*origBlock = new Block(x, y, BLOCK_SIZE, BLOCK_SIZE);
-	secondBlock = new Block(x+xCord[0]*BLOCK_SIZE, y+yCord[0]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-	thirdBlock = new Block(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-	fourthBlock = new Block(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);*/
 }
 
 Tetronimo::~Tetronimo()
@@ -183,16 +177,6 @@ void Tetronimo::rotateCCW() {
 		secondBlock->changeXY(BLOCK_SIZE*xCord[0] + orig_x, orig_y + BLOCK_SIZE*yCord[0]);
 		thirdBlock->changeXY(orig_x + BLOCK_SIZE*xCord[1], orig_y + BLOCK_SIZE*yCord[1]);
 		fourthBlock->changeXY(orig_x + BLOCK_SIZE*xCord[2], orig_y + BLOCK_SIZE*yCord[2]);
-		
-		//check for collisions caused by the rotation, move tetronimo if 
-		//possible upon collision detected
-
-		if (leftWallCollision()) {
-			moveRight();
-		}
-		else if (rightWallCollision()) {
-			moveLeft();
-		}
 	}
 }
 
@@ -214,40 +198,8 @@ void Tetronimo::rotateCW() {
 		secondBlock->changeXY(BLOCK_SIZE*xCord[0] + orig_x, orig_y + BLOCK_SIZE*yCord[0]);
 		thirdBlock->changeXY(orig_x + BLOCK_SIZE*xCord[1], orig_y + BLOCK_SIZE*yCord[1]);
 		fourthBlock->changeXY(orig_x + BLOCK_SIZE*xCord[2], orig_y + BLOCK_SIZE*yCord[2]);
-
-		//check for collisions caused by the rotation, move tetronimo if 
-		//possible upon collision detected
-		if (leftWallCollision()) {
-			moveRight();
-		}
-		else if (rightWallCollision()) {
-			moveLeft();
-		}
 	}
 }
-bool Tetronimo::HorizCollision(vector<shared_ptr<Block>> blocks) {
-	return origBlock->collRight(RIGHT_WALL) || origBlock->collLeft(LEFT_WALL)
-		|| secondBlock->collRight(RIGHT_WALL) || secondBlock->collLeft(LEFT_WALL)
-		|| thirdBlock->collRight(RIGHT_WALL) || thirdBlock->collLeft(LEFT_WALL)
-		|| fourthBlock->collRight(RIGHT_WALL) || fourthBlock->collLeft(LEFT_WALL)
-		|| origBlock->checkCollBlocks(blocks) || secondBlock->checkCollBlocks(blocks)
-		|| thirdBlock->checkCollBlocks(blocks) || fourthBlock->checkCollBlocks(blocks);
 
-}
 
-bool Tetronimo::leftWallCollision() {
-	return origBlock->collLeft(LEFT_WALL) || secondBlock->collLeft(LEFT_WALL) 
-		|| thirdBlock->collLeft(LEFT_WALL) || fourthBlock->collLeft(LEFT_WALL);
-}
 
-bool Tetronimo::rightWallCollision() {
-	return origBlock->collRight(RIGHT_WALL) || secondBlock->collRight(RIGHT_WALL)
-		|| thirdBlock->collRight(RIGHT_WALL) || fourthBlock->collRight(RIGHT_WALL);
-}
-
-bool Tetronimo::belowCollisions(vector<shared_ptr<Block>> blocks) {
-	return origBlock->collBelow(FLOOR) || secondBlock->collBelow(FLOOR)
-		|| thirdBlock->collBelow(FLOOR) || fourthBlock->collBelow(FLOOR)
-		|| origBlock->checkCollBlocks(blocks) || secondBlock->checkCollBlocks(blocks)
-		|| thirdBlock->checkCollBlocks(blocks) || fourthBlock->checkCollBlocks(blocks);
-}

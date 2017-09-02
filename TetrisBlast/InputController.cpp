@@ -111,7 +111,6 @@ void InputController::readInput() {
 		else if (event.type == SDL_KEYDOWN) {
 			keysHeld[event.key.keysym.scancode] = true;
 			down++;
-			printf("keydown event registered %d \n",down);
 		}
 		else if (event.type == SDL_KEYUP) {
 			keysHeld[event.key.keysym.scancode] = false;

@@ -45,28 +45,15 @@ void Block::changeXY(int newX, int newY) {
 	this->rect.y = newY;
 }
 
-bool Block::collRight(int collider) {
-	return (this->rect.x >= collider);
+void Block::changeY(int newY) {
+	this->rect.y = newY;
 }
 
-bool Block::collLeft(int collider) {
-	return (this->rect.x < collider);
-}
-
-bool Block::collBelow(int collider) {
-	return(this->rect.y  >= collider);
-}
-
-bool Block::collBlock(shared_ptr<Block> collider) {
-	return (collider->rect.y == this->rect.y) && (collider->rect.x == this->rect.x);
-}
-
-bool Block::checkCollBlocks(vector<shared_ptr<Block>> blocks) {
-	vector<shared_ptr<Block>>::iterator it;
-	for (it = blocks.begin(); it != blocks.end(); ++it) {
-		if (collBlock(*it)) {
-			return true;
+int Block::getRow() {
+	for (int i = 0; i < BOARD_TILE_HEIGHT; i++) {
+		if (CEILING + i*BLOCK_SIZE == this->rect.y) {
+			return i;
 		}
 	}
-	return false;
+	return -1; //block not on board
 }

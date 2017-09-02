@@ -6,11 +6,13 @@
 #include "Block.h"
 #include "Board.h"
 #include "Tetronimo.h"
+#include "CollisionDetector.h"
 
 class playState : public State
 {
 public:
 
+	CollisionDetector* collisionDetector = NULL;
 
 	void init();
 	void cleanup();
@@ -37,6 +39,9 @@ public:
 
 	//frees the current tetronimo object and adds its block to the board
 	void destroyTetronimo();
+
+	//Solves the collision by evoking the correct response from the tetronimo
+	void playState::solveCollision(Tetronimo* tetro);
 
 protected:
 	playState();

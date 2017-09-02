@@ -126,6 +126,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="MenuState.h" />

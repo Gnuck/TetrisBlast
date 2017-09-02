@@ -53,32 +53,61 @@ void Board::addBlocksToBoard(Tetronimo* tetro) {
 	boardBlocks.push_back(tetro->secondBlock);
 	boardBlocks.push_back(tetro->thirdBlock);
 	boardBlocks.push_back(tetro->fourthBlock);
-
+	
 	//Update row data for each newly added block
 	updateRowData(tetro->origBlock);
 	updateRowData(tetro->secondBlock);
 	updateRowData(tetro->thirdBlock);
 	updateRowData(tetro->fourthBlock);
+
+	
 }
 
 
 void Board::updateRowData(shared_ptr<Block> block) {
 	
-	for (int i = 0; i < BOARD_TILE_HEIGHT; i++) {
-		if (CEILING + i*BLOCK_SIZE == block->rect.y) {
-			RowSizes[i] += 1;
-
-			//Check if a row is 10, call deleteRow() if true
-			if (RowSizes[i] >= 10) {
-				//delete each block in row i
-			}
-		}
-	}
+	RowSizes[block->getRow()] +=1;
+	printf("Row %d has size %d\n", block->getRow(), RowSizes[block->getRow()]);
 }
+
 
 void Board::drawBoardBlocks(SDL_Renderer* renderer) {
 	vector<shared_ptr<Block>>::iterator it;
 	for (it = boardBlocks.begin(); it != boardBlocks.end(); ++it) {
 		(*it)->drawBlock(renderer);
+	}
+}
+
+void Board::checkFullRows() {
+
+	for (int i = BOARD_TILE_HEIGHT-1; i >=0; i--) {
+		if (RowSizes[i] >= 10) {
+			deleteCompletedRow(i);
+			//incredment back up as above row moved down, must check current row again
+			i++;
+		}
+	}
+}
+
+void Board::deleteCompletedRow(int rowDeleted) {
+
+	vector<shared_ptr<Block>>::iterator it;
+	for (it = boardBlocks.begin(); it != boardBlocks.end(); ) {
+		int myrow = (*it)->getRow();
+		if (myrow == rowDeleted) {
+			it = boardBlocks.erase(it);
+			RowSizes[myrow] -= 1;
+		}
+		else {
+			if (myrow < rowDeleted) {
+				((*it)->moveVert(BLOCK_SIZE));
+				RowSizes[myrow] -= 1;
+				//if not bottom row, update row data for block's new row
+				if (myrow < BOARD_TILE_HEIGHT-1) {
+					RowSizes[myrow + 1] += 1;
+				}
+			}
+			++it;
+		}
 	}
 }

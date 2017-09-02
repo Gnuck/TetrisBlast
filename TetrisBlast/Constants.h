@@ -29,3 +29,11 @@ enum tetroPieces {
 	SQUARE
 };
 
+enum Movement {
+	LEFT,
+	RIGHT,
+	DOWN,
+	NONE,
+	ROTATE
+
+};

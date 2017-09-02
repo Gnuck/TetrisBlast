@@ -13,6 +13,8 @@ public:
 	Tetronimo();
 	~Tetronimo();
 
+	Movement movement = NONE;
+
 	Tetronimo::Tetronimo(int x, int y);
 
 	shared_ptr<Block> origBlock = NULL;
@@ -50,17 +52,7 @@ public:
 
 	void rotateCW();
 	
-	//check all blocks in this tetronimo for a left or right collision with a border
-	bool HorizCollision(vector<shared_ptr<Block>> blocks);
 
-	//check all blocks for collision with left wall
-	bool leftWallCollision();
-
-	//check all blocks for collision with right wall
-	bool rightWallCollision();
-
-	//Checks all blocks for a collision below (currently with the floor)
-	bool belowCollisions(vector<shared_ptr<Block>> blocks);
 
 	//
 private:

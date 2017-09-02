@@ -7,6 +7,7 @@
 #include <memory>
 #include "Block.h"
 #include "Tetronimo.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -32,13 +33,16 @@ public:
 	void drawBoardBlocks(SDL_Renderer* renderer);
 
 	//Removes a complete row of blocks from the board, moves above rows down 1 row
-	int checkCompletedRow();
+	void deleteCompletedRow(int row);
 
 	//keeps data about the current makeup of each row
 	int RowSizes[BOARD_TILE_HEIGHT];
 
 	//Given the newly added block, updates the row data to account for that block
 	void updateRowData(shared_ptr<Block> block);
+
+	//Checks all rows to see if they should be deleted, calls deleteCompletedRow to do so
+	void Board::checkFullRows();
 
 };
 

@@ -32,25 +32,10 @@ public:
 	//change x value of block
 	void Block::changeXY(int newX,int newY);
 
-	/*checks for a collision to the right of this block given
-	* the x coordinate of the collider (the left wall of the collider to check)*/
-	bool Block::collRight(int collider);
+	void Block::changeY(int newY);
 
-	/*checks for collisiont to left of this block given
-	* the x coordinate of the colldier (the right wall of the collider)*/
-	bool Block::collLeft(int collider);
-
-	/*checks for a collision below this block block given the y coordinate of the collider
-	* the y coordinate of the collider(the top wall of the collider*/
-	bool Block::collBelow(int collider);
-
-	//check for collision to left and right against a given block
-	bool Block::collBlock(shared_ptr<Block> collider);
 
 	//Get row for this block
 	int Block::getRow();
-
-	//Check for collision between this block and every block in the given list of blocks
-	bool Block::checkCollBlocks(vector<shared_ptr<Block>> blocks);
 };
 
