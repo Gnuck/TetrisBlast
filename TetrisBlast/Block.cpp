@@ -5,9 +5,10 @@ Block::~Block()
 {
 }
 
-Block::Block(int x, int y, int width, int height)
+Block::Block(int x, int y, int width, int height,SDL_Color color)
 {
 	rect = {x,y,width,height};
+	this->color = color;
 }
 
 Block::Block(SDL_Rect r)
@@ -25,10 +26,10 @@ void Block::moveVert(int y) {
 }
 
 void Block::drawBlock(SDL_Renderer* renderer) {
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 200);
 	SDL_RenderFillRect(renderer, &rect);
 
-	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	//top line
 	SDL_RenderDrawLine(renderer,rect.x, rect.y, rect.x + rect.w , rect.y);
 	//left line

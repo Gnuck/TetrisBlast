@@ -14,7 +14,11 @@ MenuState::~MenuState()
 }
 
 void MenuState::init() {
+	title.init("TETRIS", WHITE, SCREEN_WIDTH / 2, 0, 150);
+	blast.init("BLAST!", WHITE, SCREEN_WIDTH / 2 + title.rect.w / 3, title.rect.y + 3 * title.rect.h / 4, 50);
 
+	playGame.init("PLAY GAME", WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 25);
+	quitGame.init("QUIT", WHITE, SCREEN_WIDTH / 2, playGame.rect.y + playGame.rect.h, 25);
 }
 
 void MenuState::cleanup() {
@@ -34,10 +38,16 @@ void MenuState::handleEvents(App* app) {
 
 	bool* keysHeld = app->inputController->getInput();
 	if (keysHeld[SDL_SCANCODE_DOWN]) {
-	
+		if (playSelected) {
+			playSelected = false;
+			quitSelected = true;
+		}
 	}
 	if (keysHeld[SDL_SCANCODE_UP]) {
-
+		if (quitSelected) {
+			playSelected = true;
+			quitSelected = false;
+		}
 	}
 	if (keysHeld[SDL_SCANCODE_DOWN]) {
 
@@ -49,25 +59,54 @@ void MenuState::handleEvents(App* app) {
 
 	}
 	if (keysHeld[SDL_SCANCODE_RETURN]) {
-		app->pushState(playState::Instance());
-		keysHeld[SDL_SCANCODE_RETURN] = false;
+		if (playSelected) {
+			app->pushState(playState::Instance());
+			keysHeld[SDL_SCANCODE_RETURN] = false;
+		}
+		else {
+			app->inputController->pressedQuit = true;
+		}
 	}
 }
 
 void MenuState::update(App* app)
 {
 
-	
+	if (playSelected) {
+		playGame.changeColor(WHITE);
+		quitGame.changeColor(SILVER);
+	}
+	else {
+		playGame.changeColor(SILVER);
+		quitGame.changeColor(WHITE);
+	}
 }
 
 void MenuState::draw(App* app) {
-	SDL_SetRenderDrawColor(app->gRenderer, 255, 255, 255, 0);
+	SDL_SetRenderDrawColor(app->gRenderer, 0, 0, 0, 0);
 	SDL_RenderClear(app->gRenderer);
 
-	//Render red filled quad
-	SDL_Rect fillRect = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
-	SDL_SetRenderDrawColor(app->gRenderer, 0xFF, 0x00, 0x00, 0xFF);
-	SDL_RenderFillRect(app->gRenderer, &fillRect);
+	//Text title = Text("TETRIS", WHITE, SCREEN_WIDTH / 2, 0, 150);
+	//Text blast = Text("BLAST!", WHITE, SCREEN_WIDTH / 2 + title.rect.w / 3, title.rect.y + 3 * title.rect.h / 4, 50);
+
+	//Text playGame = Text("PLAY GAME", WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 25);
+	//Text quitGame = Text("QUIT", WHITE, SCREEN_WIDTH / 2, playGame.rect.y + playGame.rect.h, 25);
+
+	//if (playSelected) {
+	//	playGame.changeColor(WHITE);
+	//	quitGame.changeColor(SILVER);
+	//}
+	//else {
+	//	playGame.changeColor(SILVER);
+	//	quitGame.changeColor(WHITE);
+	//}
+
+
+
+	title.draw(app->gRenderer);
+	blast.draw(app->gRenderer);
+	playGame.draw(app->gRenderer);
+	quitGame.draw(app->gRenderer);
 
 	SDL_RenderPresent(app->gRenderer);
 }

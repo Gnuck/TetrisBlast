@@ -4,8 +4,8 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 #include "InputController.h"
-//#include "State.h"
 #include <vector>
+
 
 using namespace std;
 
@@ -20,15 +20,17 @@ public:
 	//The Window renderer
 	SDL_Renderer* gRenderer;
 
-	//The surface contained by the window
-	SDL_Surface* gScreenSurface = NULL;
-
 	//The input controller
 	InputController* inputController=NULL;
 
 	//Flag for the current game state
 	State* currentState;
 	
+	//globally used font
+	TTF_Font *gFont = NULL;
+	//rendered texture
+	//Text gTextTexture;
+
 	App();
 	
 	~App();

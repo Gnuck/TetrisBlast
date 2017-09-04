@@ -13,7 +13,7 @@ public:
 	~CollisionDetector();
 
 	//check all blocks in this tetronimo for a left or right collision with a border
-	bool HorizCollision(Tetronimo* tetro, vector<shared_ptr<Block>> blocks);
+	bool checkCollision(Tetronimo* tetro, vector<shared_ptr<Block>> blocks);
 
 	//check all blocks for collision with left wall
 	bool leftWallCollision(Tetronimo* tetro);

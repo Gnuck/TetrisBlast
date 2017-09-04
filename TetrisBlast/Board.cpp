@@ -18,15 +18,20 @@ Board::~Board()
 //Draws the borders for the play area
 void Board::drawBoardBorders(SDL_Renderer* renderer) {
 
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	//left wall
-	SDL_RenderDrawLine(renderer, LEFT_WALL, CEILING, LEFT_WALL, FLOOR);
-	//right wall
-	SDL_RenderDrawLine(renderer, RIGHT_WALL, CEILING, RIGHT_WALL, FLOOR);
-	//CEILING
-	SDL_RenderDrawLine(renderer, LEFT_WALL, CEILING, RIGHT_WALL, CEILING);
-	//FLOOR
-	SDL_RenderDrawLine(renderer, LEFT_WALL, FLOOR, RIGHT_WALL, FLOOR);
+	SDL_Rect border = { LEFT_WALL,CEILING,RIGHT_WALL - LEFT_WALL,FLOOR - CEILING };
+	SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+	SDL_RenderFillRect(renderer, &border);
+	SDL_SetRenderDrawColor(renderer, 255 ,255, 255, 255);
+	SDL_RenderDrawRect(renderer, &border);
+	//SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	////left wall
+	//SDL_RenderDrawLine(renderer, LEFT_WALL, CEILING, LEFT_WALL, FLOOR);
+	////right wall
+	//SDL_RenderDrawLine(renderer, RIGHT_WALL, CEILING, RIGHT_WALL, FLOOR);
+	////CEILING
+	//SDL_RenderDrawLine(renderer, LEFT_WALL, CEILING, RIGHT_WALL, CEILING);
+	////FLOOR
+	//SDL_RenderDrawLine(renderer, LEFT_WALL, FLOOR, RIGHT_WALL, FLOOR);
 
 
 }
@@ -67,7 +72,7 @@ void Board::addBlocksToBoard(Tetronimo* tetro) {
 void Board::updateRowData(shared_ptr<Block> block) {
 	
 	RowSizes[block->getRow()] +=1;
-	printf("Row %d has size %d\n", block->getRow(), RowSizes[block->getRow()]);
+
 }
 
 

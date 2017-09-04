@@ -4,6 +4,9 @@
 //#include "InputController.h"
 #include "App.h"
 #include "State.h"
+#include "SDL_ttf.h"
+#include "SDL.h"
+#include "Text.h"
 
 
 class MenuState : public State
@@ -24,14 +27,23 @@ public:
 		return &m_MenuState;
 	}
 
+	bool playSelected = true;
+	bool quitSelected = false;
+
+	Text title;
+	Text blast;
+
+	Text playGame;
+	Text quitGame;
+
+
 protected:
 	MenuState();
 	~MenuState();
 
 private:
 	static MenuState m_MenuState;
-
-	//SDL_Surface*  bg;
 };
+
 
 #endif

@@ -132,9 +132,8 @@
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="playState.cpp" />
     <ClCompile Include="Tetronimo.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="hello_world.bmp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -147,6 +146,8 @@
     <ClInclude Include="playState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Tetronimo.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

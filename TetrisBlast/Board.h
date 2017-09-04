@@ -42,7 +42,7 @@ public:
 	void updateRowData(shared_ptr<Block> block);
 
 	//Checks all rows to see if they should be deleted, calls deleteCompletedRow to do so
-	void Board::checkFullRows();
+	void checkFullRows();
 
 };
 

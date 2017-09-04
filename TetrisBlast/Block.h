@@ -17,9 +17,11 @@ public:
 	Block();
 	~Block();
 
-	Block::Block(int x, int y, int width, int height);
+	Block::Block(int x, int y, int width, int height,SDL_Color color);
 
 	Block::Block(SDL_Rect r);
+
+	SDL_Color color; 
 
 	//move the block horizontally x units... negative x moves left, positive moves right
 	void Block::moveHoriz(int x);
@@ -33,7 +35,6 @@ public:
 	void Block::changeXY(int newX,int newY);
 
 	void Block::changeY(int newY);
-
 
 	//Get row for this block
 	int Block::getRow();

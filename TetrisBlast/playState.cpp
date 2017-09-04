@@ -13,9 +13,10 @@ playState::~playState()
 }
 
 void playState::init() {
-	tetronimo = new Tetronimo((LEFT_WALL+RIGHT_WALL)/2, CEILING);
+	tetronimo = new Tetronimo((LEFT_WALL+RIGHT_WALL)/2, CEILING+BLOCK_SIZE);
 	board = new Board();
 	collisionDetector = new CollisionDetector();
+	timer.start();
 }
 
 void playState::cleanup() {
@@ -50,57 +51,79 @@ void playState::handleEvents(App* app) {
 
 }
 void playState::update(App* app) {
-	if (tetronimo->movement == ROTATE) {
-		tetronimo->rotateCCW();
-		//Check for collisions caused by the rotations, try to solve by moving
-		if (collisionDetector->HorizCollision(tetronimo, board->boardBlocks)) {
-			tetronimo->moveLeft();
-			//if moving left caused another collision, try moving 1 right from original position 
-			//check for collisions again
-			if (collisionDetector->HorizCollision(tetronimo, board->boardBlocks)) {
-				tetronimo->moveRight();
-				tetronimo->moveRight();
-				//if moving left or right causes collisions, undo the rotatation and return to orig position
-				if (collisionDetector->HorizCollision(tetronimo, board->boardBlocks)) {
-					tetronimo->moveLeft();
-					tetronimo->rotateCW();
+	if (!gameOver) {
+		if (timer.getTime() >1000) {
+			tetronimo->moveDown();
+			if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
+				tetronimo->moveUp();
+				board->addBlocksToBoard(tetronimo);
+				//free tetronimo memory to prep for next tetronimo
+				tetronimo->~Tetronimo();
+				//check for and delete completed rows
+				board->checkFullRows();
+				//create new tetronimo that user controls
+				generateTetronimo();
+			}
+			timer.stop();
+			timer.start();
+		}
+		printf("%d\n", timer.getTime());
+		if (tetronimo->movement == ROTATE) {
+			tetronimo->rotateCCW();
+			//Check for collisions caused by the rotations, try to solve by moving
+			if (collisionDetector->checkCollision(tetronimo, board->boardBlocks)) {
+				tetronimo->moveLeft();
+				//if moving left caused another collision, try moving 1 right from original position 
+				//check for collisions again
+				if (collisionDetector->checkCollision(tetronimo, board->boardBlocks)) {
+					tetronimo->moveRight();
+					tetronimo->moveRight();
+					//if moving left or right causes collisions, undo the rotatation and return to orig position
+					if (collisionDetector->checkCollision(tetronimo, board->boardBlocks)) {
+						tetronimo->moveLeft();
+						tetronimo->rotateCW();
+					}
 				}
 			}
 		}
-	}
-	if (tetronimo->movement == DOWN) {
-		tetronimo->moveDown();
-		if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
-			tetronimo->moveUp();
-			board->addBlocksToBoard(tetronimo);
-			//free tetronimo memory to prep for next tetronimo
-			tetronimo->~Tetronimo();
-			//check for and delete completed rows
-			board->checkFullRows();
-			//create new tetronimo that user controls
-			generateTetronimo();
+		if (tetronimo->movement == DOWN) {
+			tetronimo->moveDown();
+			if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
+				tetronimo->moveUp();
+				board->addBlocksToBoard(tetronimo);
+				//free tetronimo memory to prep for next tetronimo
+				tetronimo->~Tetronimo();
+				//check for and delete completed rows
+				board->checkFullRows();
+				//create new tetronimo that user controls
+				generateTetronimo();
+			}
 		}
-	}
 
-	if (tetronimo->movement == LEFT) {
-		tetronimo->moveLeft();
-		if (collisionDetector->HorizCollision(tetronimo, board->boardBlocks)) {
-			tetronimo->moveRight();
-		}
-	}
-	if (tetronimo->movement == RIGHT) {
-		tetronimo->moveRight();
-		if (collisionDetector->HorizCollision(tetronimo, board->boardBlocks)) {
+		if (tetronimo->movement == LEFT) {
 			tetronimo->moveLeft();
+			if (collisionDetector->checkCollision(tetronimo, board->boardBlocks)) {
+				tetronimo->moveRight();
+			}
 		}
+		if (tetronimo->movement == RIGHT) {
+			tetronimo->moveRight();
+			if (collisionDetector->checkCollision(tetronimo, board->boardBlocks)) {
+				tetronimo->moveLeft();
+			}
+		}
+		tetronimo->movement = NONE;
 	}
-	tetronimo->movement = NONE;
+	else {
+		gameOver = false;
+		app->popState();
+	}
 }
 
 
 void playState::draw(App* app) {
 	//draw background color
-	SDL_SetRenderDrawColor(app->gRenderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(app->gRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(app->gRenderer);
 
 	//draw board borders and grid
@@ -125,7 +148,12 @@ void playState::resume() {
 }
 
 void playState::generateTetronimo() {
-	tetronimo = new Tetronimo((LEFT_WALL + RIGHT_WALL) / 2, CEILING);
+	tetronimo = new Tetronimo((LEFT_WALL + RIGHT_WALL) / 2, CEILING+BLOCK_SIZE);
+
+	if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
+		gameOver = true;
+	}
+
 }
 
 void playState::solveCollision(Tetronimo* tetro) {

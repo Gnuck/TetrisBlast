@@ -47,9 +47,9 @@ bool App::init() {
 					printf("SDL_image could not initailize! SDL_image Error: %s\n", IMG_GetError());
 					success = false;
 				}
-				else {
-					//Get window surface
-					gScreenSurface = SDL_GetWindowSurface(gWindow);
+				if (TTF_Init() == -1){ 
+					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError()); 
+					success = false; 
 				}
 			}
 

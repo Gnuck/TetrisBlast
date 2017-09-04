@@ -9,12 +9,14 @@ Tetronimo::Tetronimo()
 Tetronimo::Tetronimo(int x, int y) {
 	int r = rand() % 7;
 	type = (tetroPieces) r;
+	int c = rand() % 6;
+	color = colorArray[c];
 	initBlockCords(type);
 
-	origBlock = std::make_shared<Block>(x, y, BLOCK_SIZE, BLOCK_SIZE);
-	secondBlock = std::make_shared<Block>(x + xCord[0] * BLOCK_SIZE, y + yCord[0] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-	thirdBlock = std::make_shared<Block>(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-	fourthBlock = std::make_shared<Block>(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+	origBlock = std::make_shared<Block>(x, y, BLOCK_SIZE, BLOCK_SIZE,color);
+	secondBlock = std::make_shared<Block>(x + xCord[0] * BLOCK_SIZE, y + yCord[0] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE,color);
+	thirdBlock = std::make_shared<Block>(x + xCord[1] * BLOCK_SIZE, y + yCord[1] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE,color);
+	fourthBlock = std::make_shared<Block>(x + xCord[2] * BLOCK_SIZE, y + yCord[2] * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE,color);
 }
 
 Tetronimo::~Tetronimo()

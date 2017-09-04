@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Tetronimo.h"
 #include "CollisionDetector.h"
+#include "Timer.h"
 
 class playState : public State
 {
@@ -43,6 +44,9 @@ public:
 	//Solves the collision by evoking the correct response from the tetronimo
 	void playState::solveCollision(Tetronimo* tetro);
 
+	Timer timer;
+	
+	bool gameOver = false;
 protected:
 	playState();
 	~playState();
