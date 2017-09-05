@@ -66,8 +66,12 @@ private:
 	Text quitInfo;
 	Text pauseInfo;
 	Text nextTetroInfo;
+	Text pauseNotify;
 	static playState m_playState;
 	void correctNextTetroPos();
+	bool paused;
+
+	void reset();
 
 	//Defining rectangle for the square UI containing the next tetronimo
 	SDL_Rect nextRect = { (RIGHT_WALL + SCREEN_WIDTH) / 2 - (int)(2.5*BLOCK_SIZE), CEILING + BLOCK_SIZE / 2, 5 * BLOCK_SIZE,5 * BLOCK_SIZE };

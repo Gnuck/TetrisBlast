@@ -49,9 +49,6 @@ void MenuState::handleEvents(App* app) {
 			quitSelected = false;
 		}
 	}
-	if (keysHeld[SDL_SCANCODE_DOWN]) {
-
-	}
 	if (keysHeld[SDL_SCANCODE_LEFT]) {
 
 	}
@@ -85,23 +82,6 @@ void MenuState::update(App* app)
 void MenuState::draw(App* app) {
 	SDL_SetRenderDrawColor(app->gRenderer, 0, 0, 0, 0);
 	SDL_RenderClear(app->gRenderer);
-
-	//Text title = Text("TETRIS", WHITE, SCREEN_WIDTH / 2, 0, 150);
-	//Text blast = Text("BLAST!", WHITE, SCREEN_WIDTH / 2 + title.rect.w / 3, title.rect.y + 3 * title.rect.h / 4, 50);
-
-	//Text playGame = Text("PLAY GAME", WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 25);
-	//Text quitGame = Text("QUIT", WHITE, SCREEN_WIDTH / 2, playGame.rect.y + playGame.rect.h, 25);
-
-	//if (playSelected) {
-	//	playGame.changeColor(WHITE);
-	//	quitGame.changeColor(SILVER);
-	//}
-	//else {
-	//	playGame.changeColor(SILVER);
-	//	quitGame.changeColor(WHITE);
-	//}
-
-
 
 	title.draw(app->gRenderer);
 	blast.draw(app->gRenderer);

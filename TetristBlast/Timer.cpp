@@ -38,6 +38,13 @@ void Timer::pause() {
 		startTime = 0;
 	}
 }
+void Timer::unpause() {
+	if (mStarted && mPaused) {
+		mPaused = false;
+		startTime = SDL_GetTicks() - pausedTime;
+		pausedTime = 0;
+	}
+}
 
 Uint32 Timer::getTime() {
 	Uint32 time = 0;

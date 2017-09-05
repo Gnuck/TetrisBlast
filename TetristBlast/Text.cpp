@@ -23,6 +23,7 @@ void Text::draw(SDL_Renderer* renderer) {
 void Text::destroy() {
 	SDL_DestroyTexture(textureText);
 	SDL_FreeSurface(surfaceText);
+	TTF_CloseFont(font);
 }
 
 void Text::changeColor(SDL_Color newColor) {
