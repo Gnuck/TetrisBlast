@@ -24,11 +24,9 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="playState.h" />
-    <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Tetronimo.h" />
     <ClInclude Include="Text.h" />
@@ -48,6 +46,12 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FreeTetrisIcon.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1B83BF44-F05B-4B58-B7D4-767AF4A689EB}</ProjectGuid>
     <RootNamespace>TetristBlastredone</RootNamespace>
@@ -66,7 +70,8 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -104,7 +109,7 @@
     <LibraryPath>C:\Users\Nick\Documents\sdl\SDL2_image-2.0.1\lib\x86;C:\Users\Nick\Documents\sdl\SDL2_mixer-2.0.1\lib\x86;C:\Users\Nick\Documents\sdl\SDL2_ttf-2.0.14\lib\x86;C:\Users\Nick\Documents\sdl\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\Nick\Documents\sdl\SDL2_mixer-2.0.1\include;C:\Users\Nick\Documents\sdl\SDL2_image-2.0.1\include;C:\Users\Nick\Documents\sdl\SDL2_ttf-2.0.14\include;C:\Users\Nick\Documents\sdl\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Nick\Documents\sdl\SDL2_ttf-2.0.14\include;C:\Users\Nick\Documents\sdl\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Nick\Documents\sdl\SDL2_image-2.0.1\lib\x86;C:\Users\Nick\Documents\sdl\SDL2_mixer-2.0.1\lib\x86;C:\Users\Nick\Documents\sdl\SDL2_ttf-2.0.14\lib\x86;C:\Users\Nick\Documents\sdl\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -137,7 +142,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

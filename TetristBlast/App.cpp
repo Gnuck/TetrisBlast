@@ -39,14 +39,6 @@ bool App::init() {
 				success = false;
 			}
 			else {
-				//Initialized renderer color
-
-				//Initialize PNG loading
-				int imgFlags = IMG_INIT_PNG;
-				if (!(IMG_Init(imgFlags) & imgFlags)) {
-					printf("SDL_image could not initailize! SDL_image Error: %s\n", IMG_GetError());
-					success = false;
-				}
 				if (TTF_Init() == -1){ 
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError()); 
 					success = false; 
@@ -79,8 +71,8 @@ void App::close() {
 	gRenderer = NULL;
 
 	//Quit SDL subsystems
-	IMG_Quit();
 	SDL_Quit();
+	TTF_Quit();
 
 }
 

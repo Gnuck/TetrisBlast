@@ -30,11 +30,11 @@ public:
 	bool playSelected = true;
 	bool quitSelected = false;
 
-	Text title;
-	Text blast;
+	Text title=Text();
+	Text blast=Text();
 
-	Text playGame;
-	Text quitGame;
+	Text playGame=Text();
+	Text quitGame=Text();
 
 
 protected:

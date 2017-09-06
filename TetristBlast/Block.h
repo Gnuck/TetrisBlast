@@ -12,16 +12,16 @@ class Block
 public:
 
 	//Rect that defines the dimensions and coordinates of this block
-	SDL_Rect rect;
+	SDL_Rect rect = { 0,0,0,0 };
 
-	Block();
+	//Block();
 	~Block();
 
 	Block::Block(int x, int y, int width, int height,SDL_Color color);
 
 	Block::Block(SDL_Rect r);
 
-	SDL_Color color; 
+	SDL_Color color = WHITE; 
 
 	//move the block horizontally x units... negative x moves left, positive moves right
 	void Block::moveHoriz(int x);

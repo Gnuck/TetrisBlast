@@ -72,12 +72,12 @@ private:
 	void correctNextTetroPos();
 
 	//Text members
-	Text resetInfo;
-	Text quitInfo;
-	Text pauseInfo;
-	Text nextTetroInfo;
-	Text pauseNotify;
-	Text gameOverText;
+	Text resetInfo=Text();
+	Text quitInfo=Text();
+	Text pauseInfo=Text();
+	Text nextTetroInfo=Text();
+	Text pauseNotify=Text();
+	Text gameOverText=Text();
 
 	//update score given rows deleted, score UI, and change speedup factor
 	void updateScoreText(int rowsDeleted);

@@ -93,7 +93,6 @@ void playState::update(App* app) {
 			timer.stop();
 			timer.start();
 		}
-		printf("%d\n", timer.getTime());
 		if (tetronimo->movement == ROTATE) {
 			tetronimo->rotateCCW();
 			solveCollision(tetronimo);

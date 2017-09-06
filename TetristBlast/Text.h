@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
 #include <string>
@@ -18,13 +17,14 @@ public:
 	* y: y coodrinate of the CENTERPOINT of this text object*/
 	//Text(std::string text, SDL_Color color,int x,int y,int font_size);
 
-	void init(std::string text, SDL_Color color, int x, int y, int font_size);
 
+
+	Text();
 	~Text();
 
-	std::string text;
-	SDL_Color color;
-	SDL_Rect rect;
+	std::string text= "";
+	SDL_Color color = WHITE;
+	SDL_Rect rect = { 0,0,0,0 };
 
 	TTF_Font* font= NULL;
 	SDL_Surface* surfaceText = NULL;
@@ -37,6 +37,7 @@ public:
 	void Text::updateText(std::string newText);
 
 	void destroy();
+	void init(std::string text, SDL_Color color, int x, int y, int font_size);
 private:
 
 	

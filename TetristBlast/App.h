@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
 #include "InputController.h"
@@ -18,18 +17,16 @@ public:
 	SDL_Window* gWindow = NULL;
 
 	//The Window renderer
-	SDL_Renderer* gRenderer;
+	SDL_Renderer* gRenderer=NULL;
 
 	//The input controller
 	InputController* inputController=NULL;
 
 	//Flag for the current game state
-	State* currentState;
+	State* currentState=NULL;
 	
 	//globally used font
 	TTF_Font *gFont = NULL;
-	//rendered texture
-	//Text gTextTexture;
 
 	App();
 	
@@ -53,7 +50,7 @@ public:
 private:
 
 	//Flag for user quit
-	bool gameRunning;
+	bool gameRunning = false;
 
 	//stack of states
 	vector<State*> states;

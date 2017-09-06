@@ -28,7 +28,7 @@ private:
 	Uint32 pausedTime;
 
 	//timer status
-	bool mPaused;
-	bool mStarted;
+	bool mPaused=false;
+	bool mStarted=false;
 };
 

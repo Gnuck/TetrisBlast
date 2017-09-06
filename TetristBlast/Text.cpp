@@ -1,5 +1,5 @@
 #include "Text.h"
-
+Text::Text() {}
 Text::~Text(){}
 
 void Text::init(std::string textIn, SDL_Color colorIn, int x, int y, int font_size) {
