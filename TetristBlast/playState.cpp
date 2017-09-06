@@ -30,6 +30,9 @@ void playState::init() {
 	nextTetroInfo.init("Next Tetronimo", WHITE, (RIGHT_WALL + SCREEN_WIDTH) / 2,nextRect.y+nextRect.h+(int)(BLOCK_SIZE/2) , 14);
 	nextTetroInfo.init("Next Tetronimo", WHITE, (RIGHT_WALL + SCREEN_WIDTH) / 2, nextRect.y + nextRect.h + (int)(BLOCK_SIZE / 2), 14);
 	pauseNotify.init("PAUSED", WHITE, SCREEN_WIDTH / 2, 2*SCREEN_HEIGHT / 5, 75);
+	gameOverText.init("GAME OVER", WHITE, SCREEN_WIDTH / 2, 2 * SCREEN_HEIGHT / 5, 75);
+
+	gameOver = false;
 }
 
 void playState::handleEvents(App* app) {
@@ -72,14 +75,18 @@ void playState::handleEvents(App* app) {
 
 void playState::update(App* app) {
 	if (!gameOver && !paused) {
-		if (timer.getTime() > 1000) {
+		int rowsDeleted = 0;
+		if (timer.getTime() > 1000*speedUpFactor) {
 			tetronimo->moveDown();
 			if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
 				tetronimo->moveUp();
 				board->addBlocksToBoard(tetronimo);
 
-				//check for and delete completed rows
-				board->checkFullRows();
+				//check for and delete completed rows, add deleted blocks to score
+				rowsDeleted+= board->checkFullRows();
+				if (rowsDeleted > 0) {
+					updateScoreText(rowsDeleted);
+				}
 				//create new tetronimo that user controls
 				generateTetronimo();
 			}
@@ -96,7 +103,13 @@ void playState::update(App* app) {
 			if (collisionDetector->belowCollisions(tetronimo, board->boardBlocks)) {
 				tetronimo->moveUp();
 				board->addBlocksToBoard(tetronimo);
-				board->checkFullRows();
+
+				//check for and delete completed rows, add deleted blocks to score
+				rowsDeleted += board->checkFullRows();
+				if (rowsDeleted > 0) {
+					updateScoreText(rowsDeleted);
+				}
+				
 				generateTetronimo();
 			}
 		}
@@ -120,8 +133,11 @@ void playState::update(App* app) {
 		//don't update game if game is paused
 	}
 	else {
-		gameOver = false;
-		app->popState();
+		//gameOver = false;
+		speedUpFactor = 1;
+		score = 0;
+		
+		//app->popState();
 	}
 }
 
@@ -155,6 +171,9 @@ void playState::draw(App* app) {
 
 	if (paused) {
 		pauseNotify.draw(app->gRenderer);
+	}
+	if (gameOver) {
+		gameOverText.draw(app->gRenderer);
 	}
 
 	SDL_RenderPresent(app->gRenderer);
@@ -222,6 +241,9 @@ void playState::reset() {
 
 	delete board;
 	board = new Board();
+	gameOver = false;
+	score = 0;
+	updateScoreText(0);
 }
 
 void playState::cleanup() {
@@ -241,4 +263,14 @@ void playState::cleanup() {
 	quitInfo.destroy();
 	nextTetroInfo.destroy();
 	pauseNotify.destroy();
+}
+
+void playState::updateScoreText(int rowsDeleted) {
+	score += 10*rowsDeleted;
+	//speedup by 75% every 10 rows completed
+	if (score % 100 == 0) {
+		speedUpFactor *= 0.9;
+	}
+
+	scoreDisplay.updateText("Score = " + std::to_string(score));
 }

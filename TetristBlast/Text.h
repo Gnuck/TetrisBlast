@@ -19,7 +19,7 @@ public:
 	//Text(std::string text, SDL_Color color,int x,int y,int font_size);
 
 	void init(std::string text, SDL_Color color, int x, int y, int font_size);
-	//Text();
+
 	~Text();
 
 	std::string text;
@@ -33,8 +33,12 @@ public:
 
 	void changeColor(SDL_Color newColor);
 
+
+	void Text::updateText(std::string newText);
+
 	void destroy();
 private:
 
+	
 };
 

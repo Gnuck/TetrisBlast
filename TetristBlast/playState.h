@@ -38,43 +38,50 @@ protected:
 	~playState();
 
 private:
+	static playState m_playState;
 
+	//Game objects
+	CollisionDetector* collisionDetector = NULL;
+	Tetronimo* tetronimo = NULL;
+	Tetronimo* nextTetro = NULL;
+	//The board object where the game takes place, info about borders stationary blocks on the board
+	Board* board = NULL;
+	Timer timer;
+
+	//Input data array
 	bool* keysHeld = NULL;
 
+	//Game state members
 	void pause();
 	void resume();
-
-	CollisionDetector* collisionDetector = NULL;
-
-	//Current tetronimo the play controls
-	Tetronimo* tetronimo = NULL;
-
-	//Next tetronimo to be spawned;
-	Tetronimo* nextTetro = NULL;
-	//The board object where the game takes place, keeps information about the play borders and the stationary blocks/tetronimos
-	//currently on the board
-	Board* board = NULL;
-
-	//assigns tetronimo a new Tetronimo object, freeing the last tetronimo object
+	void reset();
+	bool paused;
+	bool gameOver = false;
+	float speedUpFactor = 1.0;
+	
+	//helper functions
+	//assigns tetronimo and nextTetro a new game object, freeing old memory
 	void generateTetronimo();
-
 	//Solves the collision by evoking the correct response from the tetronimo
 	void playState::solveCollision(Tetronimo* tetro);
-	Timer timer;
-	bool gameOver = false;
+
+
+	//NextTetro helpers
+	//Defining rectangle for the square UI containing the next tetronimo
+	SDL_Rect nextRect = { (RIGHT_WALL + SCREEN_WIDTH) / 2 - (int)(2.5*BLOCK_SIZE), CEILING + BLOCK_SIZE / 2, 5 * BLOCK_SIZE,5 * BLOCK_SIZE };
+	void correctNextTetroPos();
+
+	//Text members
 	Text resetInfo;
 	Text quitInfo;
 	Text pauseInfo;
 	Text nextTetroInfo;
 	Text pauseNotify;
-	static playState m_playState;
-	void correctNextTetroPos();
-	bool paused;
+	Text gameOverText;
 
-	void reset();
-
-	//Defining rectangle for the square UI containing the next tetronimo
-	SDL_Rect nextRect = { (RIGHT_WALL + SCREEN_WIDTH) / 2 - (int)(2.5*BLOCK_SIZE), CEILING + BLOCK_SIZE / 2, 5 * BLOCK_SIZE,5 * BLOCK_SIZE };
+	//update score given rows deleted, score UI, and change speedup factor
+	void updateScoreText(int rowsDeleted);
+	
 
 };
 

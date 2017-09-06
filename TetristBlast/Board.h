@@ -41,8 +41,8 @@ public:
 	//Given the newly added block, updates the row data to account for that block
 	void updateRowData(shared_ptr<Block> block);
 
-	//Checks all rows to see if they should be deleted, calls deleteCompletedRow to do so
-	void checkFullRows();
+	//Checks all rows to see if they should be deleted, calls deleteCompletedRow to do so. returns number of rows deleted
+	int checkFullRows();
 
 };
 

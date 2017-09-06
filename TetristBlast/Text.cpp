@@ -17,7 +17,6 @@ void Text::init(std::string textIn, SDL_Color colorIn, int x, int y, int font_si
 void Text::draw(SDL_Renderer* renderer) {
 	textureText = SDL_CreateTextureFromSurface(renderer, this->surfaceText);
 	SDL_RenderCopy(renderer, textureText, NULL, &rect);
-	
 }
 
 void Text::destroy() {
@@ -29,4 +28,9 @@ void Text::destroy() {
 void Text::changeColor(SDL_Color newColor) {
 	color = newColor;
 	surfaceText=TTF_RenderText_Solid(font, text.c_str(), color);
+}
+
+void Text::updateText(std::string newText) {
+	text = newText;
+	surfaceText = TTF_RenderText_Solid(font, text.c_str(), color);
 }

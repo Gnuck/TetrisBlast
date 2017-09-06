@@ -83,15 +83,17 @@ void Board::drawBoardBlocks(SDL_Renderer* renderer) {
 	}
 }
 
-void Board::checkFullRows() {
-
+int Board::checkFullRows() {
+	int fullRows = 0;
 	for (int i = BOARD_TILE_HEIGHT-1; i >=0; i--) {
 		if (RowSizes[i] >= 10) {
 			deleteCompletedRow(i);
+			fullRows++;
 			//incredment back up as above row moved down, must check current row again
 			i++;
 		}
 	}
+	return fullRows;
 }
 
 void Board::deleteCompletedRow(int rowDeleted) {
